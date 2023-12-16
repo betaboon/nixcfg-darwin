@@ -3,7 +3,14 @@
 
   home.packages = with pkgs; [
     neofetch
+    tig
   ];
+
+  programs.git = {
+    enable = true;
+    userName = "betaboon";
+    userEmail = "betaboon@0x80.ninja";
+  };
 
   programs.fish = {
     enable = true;
