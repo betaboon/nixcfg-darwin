@@ -3,15 +3,22 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, ... }:
+  let
+
+    inherit (inputs.nix-darwin.lib) darwinSystem;
+
+  in
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#macosvm
-    darwinConfigurations.macosvm = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.macosvm = darwinSystem {
       modules = [ 
         ./configuration.nix
         {
