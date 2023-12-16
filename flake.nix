@@ -7,6 +7,10 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, ... }:
@@ -21,6 +25,13 @@
     darwinConfigurations.macosvm = darwinSystem {
       modules = [ 
         ./configuration.nix
+        # home-manager specific
+        inputs.home-manager.darwinModules.default
+        {
+          users.users.betaboon.home = "/Users/betaboon";
+          home-manager.users.betaboon = import ./home.nix;
+        }
+        # nix-darwin specific
         {
           # Set Git commit hash for darwin-version.
           system.configurationRevision = self.rev or self.dirtyRev or null;
