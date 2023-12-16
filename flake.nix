@@ -27,10 +27,6 @@
         ./configuration.nix
         # home-manager specific
         inputs.home-manager.darwinModules.default
-        {
-          users.users.betaboon.home = "/Users/betaboon";
-          home-manager.users.betaboon = import ./home.nix;
-        }
         # nix-darwin specific
         {
           # Set Git commit hash for darwin-version.
